@@ -1,0 +1,6 @@
+<launch>
+<!--     <node pkg="bioimpedance" name="bioimpedance_driver_node" type="bioimpedance.py" output="screen" required="True"/> -->
+    <node pkg="micron_tracker_ros" name="micron" type="micron_tracker" args="-x /home/biomed/user_study_ws/src/sawClaronMicronTracker/examples/cmu.xml" required="True"/>
+<!--     <node pkg="pig_lab_gui" name="gui" type="pig_lab_gui.py" output="screen"/>
+    <node pkg="cv_camera" name="ultrasound" type="cv_camera_node" required="True"/> -->
+</launch>
