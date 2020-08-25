@@ -1,6 +1,22 @@
 <launch>
+	<param name="mode" value="run"/>
     <node pkg="bioimpedance" name="bioimpedance_driver_node" type="bioimpedance.py" output="screen" required="True"/>
-    <node pkg="micron_tracker_ros" name="micron" type="micron_tracker" args="-x /home/biomed/user_study_ws/src/sawClaronMicronTracker/examples/cmu.xml" required="True"/>
+    <!--<node pkg="micron_tracker_ros" name="micron" type="micron_tracker" args="-x /home/biomed/user_study_ws/src/sawClaronMicronTracker/examples/cmu.xml" required="True"/>-->
     <node pkg="pig_lab_gui" name="gui" type="pig_lab_gui.py" output="screen"/>
-    <node pkg="cv_camera" name="ultrasound" type="cv_camera_node" required="True"/>
+    <include file="$(find video_stream_opencv)/launch/camera.launch">
+        <arg name="camera_name" value="ultrasound_large" />
+	 	<arg name="video_stream_provider" value="/dev/video1"/>
+	 	<arg name="width" value="1280"/>
+	 	<arg name="height" value="720"/>
+	 </include>
+	 <node pkg="nodelet" type="nodelet" args="standalone image_proc/crop_decimate" name="crop">
+		<param name="x_offset" type="int" value="100" />
+		<param name="y_offset" type="int" value="0" />
+		<param name="width" type="int" value="1080" />
+		<param name="height" type="int" value="720" />
+	 	<remap from="camera/image_raw"   to="ultrasound_large/image_raw"/>
+	 	<remap from="camera/camera_info" to="ultrasound_large/camera_info"/>
+	 	<remap from="camera_out/image_raw"   to="ultrasound/image_raw"/>
+	 	<remap from="camera_out/camera_info" to="ultrasound/camera_info"/>
+	 </node>
 </launch>
