@@ -158,7 +158,7 @@ class Ui(QtWidgets.QMainWindow):
         if self.recording:
             return
         self.startTime = rospy.Time.now()
-        date = datetime.utcfromtimestamp(rospy.Time.now().secs).strftime('%Y-%m-%d--%H:%M:%S')
+        date = datetime.utcfromtimestamp(rospy.Time.now().secs).strftime('%Y-%m-%d--%H-%M-%S')
         self.lock.acquire()
         bagPath = os.path.join(str(self.ui_filePath.text()),'%s-%s-Trial-%i.bag' % (date, name, self.trialNo))
         try:
